@@ -16,13 +16,14 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('resumo');
             $table->longText('conteudo');
-            $table->string('imagem')->nullable;
+            $table->string('imagem')->nullable();
+            $table->tinyInteger('status');
             $table->foreignId('usuario_id')->constrained()->restrictOnDelete();
-            $table->foreignId('categorias_id')->constrained();
+            $table->foreignId('categoria_id')->constrained();
             $table->timestamps();
         });
     }
- 
+
     /**
      * Reverse the migrations.
      */
