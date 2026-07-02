@@ -4,48 +4,74 @@
             Notícias
         </h2>
     </x-slot>
-
+ 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 flex justify-between items-center">
                     <h1 class="text-xl font-bold">Lista de Notícias</h1>
-                    <a href="#" class="bg-black text-white px-4 py-2 rounded">Nova Notícia</a>
+                    <a href="{{ route('admin.noticias.cadastrar') }}" class="bg-black text-white px-3 py-2 rounded">+ Nova
+                        Notícia</a>
                 </div>
-
-                <div class=>
-                    <table>
+ 
+                <div class="p-6">
+                    <table class="w-full text-sm">
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Título</th>
-                                <th>Resumo</th>
-                                <th>Publicação</th>
-                                <th>ação</th>
+                            <tr class="bg-cabecalho-tabela">
+                                <th class="px-5 py-3.5 font-semibold text-left">ID</th>
+                                <th class="px-5 py-3.5 font-semibold text-left">Título</th>
+                                <th class="px-5 py-3.5 font-semibold text-left hidden md:table-cell">Resumo</th>
+                                <th class="px-5 py-3.5 font-semibold text-left hidden md:table-cell">Categoria</th>
+                                <th class="px-5 py-3.5 font-semibold text-left hidden md:table-cell">Publicação</th>
+                                <th class="px-5 py-3.5 font-semibold">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Titulo da Notícia</td>
-                                <td>Resumo da Notícia</td>
-                                <td>17/06/26</td>
-                                <td>17/06/2026 19:40</td>
-                                <td>
-                                    <a href="#" class="text-blue-500">Editar</a>
-                                    <a href="#" class="text-red-500 ml-2">Excluir</a>
-                                </td>
-                            </tr>
+ 
+                            @forelse ($noticias as $n)
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-5 py-3.5">{{ $n->id }}</td>
+                                    <td class="px-5 py-3.5">{{ $n->titulo }}</td>
+                                    <td class="px-5 py-3.5 hidden md:table-cell">{{ $n->resumo }}</td>
+                                    <td class="px-5 py-3.5 hidden md:table-cell">{{ $n->categoria_id }}</td>
+                                    <td class="px-5 py-3.5 hidden md:table-cell">
+                                        {{ $n->created_at->diffForHumans() }}
+                                        <br>
+                                        {{ $n->created_at->format('d/m/Y H:i') }}
+                                    </td>
+ 
+                                    <td class="px-5 py-3.5 text-center-flex">
+                                        <a href="#" class="bg-gray-300 px-3 py-2 rounded">Editar</a>
+ 
+                                        <form action="{{ route('admin.noticias.excluir', $n->id) }}" method="post">
+                                            @method('delete')
+                                            @csrf
+                                            <button type="submit"
+                                                class="bg-red-300 px-3 py-2 rounded ml-2" onclick="return confirm('Deseja realmente excluir o registro?')">Excluir</button>
+                                        </form>
+ 
+                                    </td>
+                                </tr>
+ 
+                            @empty
+ 
+                                <tr>
+                                    <td colspan="6" class="text-center text-slate-400 px-5 py-3.5">
+                                        <p>Nenhuma notícia cadastrada.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
+ 
                         </tbody>
                     </table>
                 </div>
-
-                <div>
-
-
+ 
+                <div class="flex justify-center m-6">
+                    Paginação
                 </div>
-
+ 
             </div>
         </div>
     </div>
 </x-app-layout>
+ 

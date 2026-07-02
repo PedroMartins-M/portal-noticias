@@ -8,9 +8,24 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    Cadastrar Notícias
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100 flex justify-between items-center">
+                    <h1 class="text-xl font-bold">Cadastrar Notícias</h1>
+                    <a href="{{ route('admin.noticias.index') }}" class="bg-slate-400 text-white px-4 py-2 rounded">+ Voltar para lista de noticias</a>
                 </div>
+
+            <div class="p-6">
+
+                <form action= "{{ route('admin.noticias.armazenar') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+
+                    @include('admin.noticias._form',[
+                        'categorias' => $categorias
+                    ])
+                </form>
+
+            </div>
+
             </div>
         </div>
     </div>

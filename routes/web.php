@@ -14,7 +14,14 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard/noticias',[NoticiaController::class,'index'])->name('admin.noticias.index');
+    Route::get('/dashboard/noticias', [NoticiaController::class, 'index'])->name('admin.noticias.index'); 
+
+    Route::get('/dashboard/noticias/cadastrar',[NoticiaController::class,'create'])->name('admin.noticias.cadastrar');
+
+    Route::post('/dashboard/noticias/cadastrar',[NoticiaController::class,'store'])->name('admin.noticias.armazenar');
+
+    Route::get('/dashboard/noticias/excluir/{id}',[NoticiaController::class,'destroy'])->name('admin.noticias.excluir');
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
