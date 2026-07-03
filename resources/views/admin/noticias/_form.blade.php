@@ -18,41 +18,59 @@
         <option></option>
         
         @foreach ($categorias as $id => $nome)
-            <option value="{{ $id }}">{{ $nome }}</option>
+            <option value="{{ $id }}" {{ old('categoria_id', 
+            $noticia->categoria_id) == $id ? 'selected' : '' }}>{{ $nome }}</option>
         @endforeach
     </select>
 </div>
 
 <div class="md-4">
     <label>Título *</label>
-    <input type="text" name="titulo" id="titulo" class="form-control">
+    <input type="text" value="{{ old('titulo', $noticia->titulo) }}" name="titulo" id="titulo" class="form-control">
 </div>
 
 <div class="md-4">
     <label for="resumo">Resumo *</label>
-    <textarea name="resumo" id="resumo" class="form-control" rows="3"></textarea>
+    <textarea name="resumo" id="resumo" class="form-control" rows="3">{{ old('resumo', $noticia->resumo) }}
+    </textarea>
 </div>
 
 <div class="md-4">
     <label for="conteudo">Conteúdo *</label>
-    <textarea name="conteudo" id="conteudo" class="form-control" rows="10"></textarea>
+    <textarea name="conteudo" id="conteudo" class="form-control" rows="10">{{ old('conteudo', $noticia->conteudo) }}</textarea>
 </div>
 
 <div class="md-4">
+
+    @if($noticia->imagem)
+    <div class="mb-2">
+        <img src="{{ asset('storage/' .$noticia->imagem)}}" class="w-40 rounded object-cover">
+    </div>
+    @endif
+
     <label for="imagem">Imagem *</label>
-    <input type="file" name="imagem" id="imagem" class="form-control">
+    <input type="file" name="imagem" id="imagem">
+
+    <br>
+
+    @if ($noticia->imagem)
+    <p>
+         <samll class="text-xs text-slate-500"> Deixe em branco para manter a foto atual</samll>
+    </p>
+    @endif
+   
 </div>
 
 <div class="md-4">
     <label>Situacao *</label>
     <div>
         <label>
-            <input type="radio" name="status" value="1">
+            <input type="radio" name="status" value="1" {{old('status', $noticia->status) == 1 ? 'checked' : ''}}>
             Publicado
         </label>
 
         <label class="md-4">
-            <input type="radio" name="status" value="0" checked>
+            <input type="radio" name="status" value="0" {{old('status', $noticia->status) == 0 ? 'checked' : ''}}>
             Rascunho
         </label>
     </div>

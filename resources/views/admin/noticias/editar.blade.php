@@ -16,7 +16,11 @@
 
             <div class="p-6">
 
-                <form action "#" method="POST">
+                <form action = {{route('admin.noticias.atualizar', $noticia->id</form>)}} method="post" enctype="multipart/form-data">
+
+                    @csrf
+                    @method('put')
+
                     @include('admin.noticias._form')
                 </form>
 

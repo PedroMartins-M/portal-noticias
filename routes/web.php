@@ -20,6 +20,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/dashboard/noticias/cadastrar',[NoticiaController::class,'store'])->name('admin.noticias.armazenar');
 
+    Route::get('/dashboard/noticias/editar/{id}',[NoticiaController::class,'edit'])->name('admin.noticias.editar');
+
+    Route::put('/dashboard/noticias/editar/{id}',[NoticiaController::class,'update'])->name('admin.noticias.atualizar');
+
     Route::get('/dashboard/noticias/excluir/{id}',[NoticiaController::class,'destroy'])->name('admin.noticias.excluir');
 
 

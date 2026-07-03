@@ -33,7 +33,8 @@ class NoticiaController extends Controller
         //dd($categorias);
 
         return view('admin.noticias.cadastrar', [
-            "categorias" => $categorias
+            'categorias' => $categorias,
+            'noticia' => new Noticia()
         ]);
     }
 
@@ -50,21 +51,21 @@ class NoticiaController extends Controller
             'imagem' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
 
-        $noticias = new Noticia();
+        $noticia = new Noticia();
 
-        $noticias->titulo = $request->titulo;
-        $noticias->resumo = $request->resumo;
-        $noticias->conteudo = $request->conteudo;
-        $noticias->categoria_id = $request->categoria_id;
-        $noticias->status = $request->status;
-        $noticias->usuario_id = Auth::user()->id;
+        $noticia->titulo = $request->titulo;
+        $noticia->resumo = $request->resumo;
+        $noticia->conteudo = $request->conteudo;
+        $noticia->categoria_id = $request->categoria_id;
+        $noticia->status = $request->status;
+        $noticia->usuario_id = Auth::user()->id;
         
         if($request->hasFile('imagem')){
 
-            $noticias->imagem = $request->file('imagem')->store('noticias', 'public');
+            $noticia->imagem = $request->file('imagem')->store('noticias', 'public');
         }
 
-        $noticias->save();
+        $noticia->save();
 
         return redirect()->route('admin.noticias.index');
 
@@ -83,7 +84,12 @@ class NoticiaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categorias = Categoria::orderby('nome', 'ASC')->pluck('nome', 'id');
+        
+        return view('admin.noticias.cadastrar', [
+            'categorias' => $categorias,
+            'noticia' => Noticia::findOrFail($id)
+        ]);
     }
 
     /**
@@ -91,7 +97,35 @@ class NoticiaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         $request->validate([
+            'titulo' => 'required|min:10',
+            'resumo' => 'required',
+            'conteudo' => 'required',
+            'categoria_id' => 'required',
+            'imagem' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+        ]);
+
+        $noticia = Noticia::findOrFail($id);
+
+        $noticia->titulo = $request->titulo;
+        $noticia->resumo = $request->resumo;
+        $noticia->conteudo = $request->conteudo;
+        $noticia->categoria_id = $request->categoria_id;
+        $noticia->status = $request->status;
+        $noticia->usuario_id = Auth::user()->id;
+        
+        if($request->hasFile('imagem')){
+
+        if($noticia->imagem){
+                Storage::disk('public')->delete($noticia->imagem);
+            }
+
+            $noticia->imagem = $request->file('imagem')->store('noticias', 'public');
+        }
+
+        $noticia->save();
+
+        return redirect()->route('admin.noticias.index');
     }
 
     /**
