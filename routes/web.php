@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\NoticiaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -25,6 +26,21 @@ Route::middleware('auth')->group(function () {
     Route::put('/dashboard/noticias/editar/{id}',[NoticiaController::class,'update'])->name('admin.noticias.atualizar');
 
     Route::get('/dashboard/noticias/excluir/{id}',[NoticiaController::class,'destroy'])->name('admin.noticias.excluir');
+
+//Rotas de Categorias
+
+    Route::get('/dashboard/categorias', [CategoriaController::class, 'index'])->name('admin.noticias.index'); 
+
+    Route::get('/dashboard/categorias/cadastrar',[CategoriaController::class,'create'])->name('admin.noticias.cadastrar');
+
+    Route::post('/dashboard/categorias/cadastrar',[CategoriaController::class,'store'])->name('admin.noticias.armazenar');
+
+    Route::get('/dashboard/categorias/editar/{id}',[CategoriaController::class,'edit'])->name('admin.noticias.editar');
+
+    Route::put('/dashboard/categorias/editar/{id}',[CategoriaController::class,'update'])->name('admin.noticias.atualizar');
+
+    Route::get('/dashboard/categorias/excluir/{id}',[CategoriaController::class,'destroy'])->name('admin.noticias.excluir');
+
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
